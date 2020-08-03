@@ -2,7 +2,9 @@ import os
 import re
 import time
 
-from talon import Context, Module, app, imgui, ui, fs
+from talon import Context, Module, app, imgui, ui, fs, actions
+from glob import glob
+from pathlib import Path
 
 # Construct at startup a list of overides for application names (similar to how homophone list is managed)
 # ie for a given talon recognition word set  `one note`, recognized this in these switcher functions as `ONENOTE`
@@ -65,7 +67,6 @@ def update_lists():
     global running_application_dict
     running_application_dict = {}
     running = {}
-    launch = {}
     for cur_app in ui.apps(background=False):
         name = cur_app.name
 
@@ -83,6 +84,30 @@ def update_lists():
     for override in overrides:
         running[override] = overrides[override]
 
+    lists = {
+        "self.running": running,
+        # "self.launch": launch,
+    }
+
+    # batch update lists
+    ctx.lists.update(lists)
+
+
+mac_application_directories = [
+    "/Applications",
+    "/Applications/Utilities",
+    "/System/Applications",
+    "/System/Applications/Utilities",
+]
+
+windows_application_directories = [
+    "%AppData%/Microsoft/Windows/Start Menu/Programs",
+    "%ProgramData%/Microsoft/Windows/Start Menu/Programs",
+]
+
+
+def update_launchable_applications(name, flags):
+    launch = {}
     if app.platform == "mac":
         for base in "/Applications", "/Applications/Utilities":
             for name in os.listdir(base):
@@ -96,13 +121,28 @@ def update_lists():
                             continue
                         launch[word] = path
 
-    lists = {
-        "self.running": running,
-        "self.launch": launch,
-    }
+    elif app.platform == "windows":
+        for base in windows_application_directories:
+            path = os.path.expandvars(base)
 
-    # batch update lists
-    ctx.lists.update(lists)
+            shortcuts = glob(path + "/**/*.lnk", recursive=True)
+
+            for path in shortcuts:
+                # print(name)
+                name = path.rsplit("\\")[-1].split(".")[0].lower()
+                if "install" not in name:
+                    launch[name] = path
+                    words = name.split(" ")
+                    for word in words:
+                        if word and word not in launch:
+                            if len(name) > 6 and len(word) < 3:
+                                continue
+                        launch[word] = path
+
+    ctx.lists["self.launch"] = launch
+
+
+update_launchable_applications(None, None)
 
 
 def update_overrides(name, flags):
@@ -111,7 +151,6 @@ def update_overrides(name, flags):
     overrides = {}
 
     if name is None or name == override_file_path:
-        print("update_overrides")
         with open(override_file_path, "r") as f:
             for line in f:
                 line = line.rstrip()
@@ -164,7 +203,10 @@ class Actions:
 
     def switcher_launch(path: str):
         """Launch a new application by path"""
-        ui.launch(path=path)
+        if app.platform == "windows":
+            os.startfile(path)
+        else:
+            ui.launch(path=path)
 
     def switcher_list_running():
         """Lists all running applications"""
