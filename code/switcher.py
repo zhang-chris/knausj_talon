@@ -3,7 +3,9 @@ import re
 import time
 
 import talon
-from talon import Context, Module, imgui, ui, fs, actions, app
+from talon import Context, Module, app, imgui, ui, fs, actions
+from glob import glob
+from itertools import islice
 
 # Construct at startup a list of overides for application names (similar to how homophone list is managed)
 # ie for a given talon recognition word set  `one note`, recognized this in these switcher functions as `ONENOTE`
@@ -25,6 +27,20 @@ overrides = {}
 
 # a list of the currently running application names
 running_application_dict = {}
+
+
+mac_application_directories = [
+    "/Applications",
+    "/Applications/Utilities",
+    "/System/Applications",
+    "/System/Applications/Utilities",
+]
+
+windows_application_directories = [
+    "%AppData%/Microsoft/Windows/Start Menu/Programs",
+    "%ProgramData%/Microsoft/Windows/Start Menu/Programs",
+    "%AppData%/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar",
+]
 
 
 @mod.capture(rule="{self.running}")  # | <user.text>)")
@@ -75,7 +91,13 @@ def update_lists():
     for override in overrides:
         running[override] = overrides[override]
 
-    ctx.lists["user.running"] = running
+    lists = {
+        "self.running": running,
+        # "self.launch": launch,
+    }
+
+    # batch update lists
+    ctx.lists.update(lists)
 
 
 def update_overrides(name, flags):
@@ -93,6 +115,13 @@ def update_overrides(name, flags):
                     overrides[line[0].lower()] = line[1].strip()
 
         update_lists()
+
+
+pattern = re.compile(r"[A-Z][a-z]*|[a-z]+|\d")
+
+
+def create_spoken_forms(name, max_len=30):
+    return " ".join(list(islice(pattern.findall(name), max_len)))
 
 
 @mod.action_class
@@ -136,7 +165,11 @@ class Actions:
 
     def switcher_launch(path: str):
         """Launch a new application by path"""
-        ui.launch(path=path)
+        if app.platform == "windows":
+            # print("path: " + path)
+            os.startfile(path)
+        else:
+            ui.launch(path=path)
 
     def switcher_toggle_running():
         """Shows/hides all running applications"""
@@ -159,29 +192,42 @@ def gui(gui: imgui.GUI):
 
 
 def update_launch_list():
-    if talon.app.platform == "mac":
-        launch = {}
-        for base in (
-            "/Applications",
-            "/Applications/Utilities",
-            "/System/Applications",
-            "/System/Applications/Utilities",
-        ):
-            if os.path.isdir(base):
-                for name in os.listdir(base):
-                    # print(name)
-                    path = os.path.join(base, name)
-                    name = name.rsplit(".", 1)[0].lower()
+    launch = {}
+    if app.platform == "mac":
+        for base in "/Applications", "/Applications/Utilities":
+            for name in os.listdir(base):
+                path = os.path.join(base, name)
+                name = name.rsplit(".", 1)[0].lower()
+                launch[name] = path
+                words = name.split(" ")
+                for word in words:
+                    if word and word not in launch:
+                        if len(name) > 6 and len(word) < 3:
+                            continue
+                        launch[word] = path
+
+    elif app.platform == "windows":
+        for base in windows_application_directories:
+            path = os.path.expandvars(base)
+
+            shortcuts = glob(path + "/**/*.lnk", recursive=True)
+
+            for path in shortcuts:
+                # print(name)
+                name = create_spoken_forms(
+                    path.rsplit("\\")[-1].split(".")[0]
+                )  # =  path.rsplit("\\")[-1].split(".")[0].lower()
+                if "install" not in name:
+                    print(name)
                     launch[name] = path
                     words = name.split(" ")
                     for word in words:
                         if word and word not in launch:
                             if len(name) > 6 and len(word) < 3:
                                 continue
+                        launch[word] = path
 
-                            launch[word] = path
-
-        ctx.lists["user.launch"] = launch
+    ctx.lists["self.launch"] = launch
 
 
 def ui_event(event, arg):
@@ -193,7 +239,7 @@ def ui_event(event, arg):
 # to initialize user launch to avoid getting "List not found: user.launch"
 # errors on other platforms.
 ctx.lists["user.launch"] = {}
-
+ctx.lists["user.running"] = {}
 
 # Talon starts faster if you don't use the `talon.ui` module during launch
 def on_ready():
@@ -201,6 +247,8 @@ def on_ready():
     fs.watch(overrides_directory, update_overrides)
     update_launch_list()
     ui.register("", ui_event)
+
+
 # NOTE: please update this from "launch" to "ready" in Talon v0.1.5
 app.register("launch", on_ready)
 # app.register("ready", on_ready)
