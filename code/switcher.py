@@ -42,6 +42,20 @@ windows_application_directories = [
     "%AppData%/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar",
 ]
 
+words_to_exclude = [
+    "and",
+    "zero",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+]
+
 
 @mod.capture(rule="{self.running}")  # | <user.text>)")
 def running_applications(m) -> str:
@@ -117,11 +131,26 @@ def update_overrides(name, flags):
         update_lists()
 
 
-pattern = re.compile(r"[A-Z][a-z]*|[a-z]+|\d")
+pattern = re.compile(r"[A-Z][a-z]*|[a-z]+|\d|[+]")
 
-
+# todo: this is garbage
 def create_spoken_forms(name, max_len=30):
-    return " ".join(list(islice(pattern.findall(name), max_len)))
+    result = " ".join(list(islice(pattern.findall(name), max_len)))
+
+    result = (
+        result.replace("0", "zero")
+        .replace("1", "one")
+        .replace("2", "two")
+        .replace("3", "three")
+        .replace("4", "four")
+        .replace("5", "five")
+        .replace("6", "six")
+        .replace("7", "seven")
+        .replace("8", "eight")
+        .replace("9", "nine")
+        .replace("+", "plus")
+    )
+    return result
 
 
 @mod.action_class
@@ -222,7 +251,7 @@ def update_launch_list():
                     launch[name] = path
                     words = name.split(" ")
                     for word in words:
-                        if word and word not in launch:
+                        if word not in words_to_exclude and word not in launch:
                             if len(name) > 6 and len(word) < 3:
                                 continue
                         launch[word] = path
