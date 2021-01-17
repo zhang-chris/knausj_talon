@@ -452,4 +452,4 @@ def check_shimmer_setting_at_startup():
         mg.stop()
 
 
-app.register("launch", check_shimmer_setting_at_startup)
+app.register("ready", check_shimmer_setting_at_startup)

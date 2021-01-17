@@ -404,5 +404,5 @@ def register_events():
 
 # prevent scary errors in the log by waiting for talon to be fully loaded
 # before registering the events
-app.register("launch", register_events)
+app.register("ready", register_events)
 

@@ -621,5 +621,5 @@ def commands_updated(_):
     update_title()
 
 
-app.register("launch", refresh_context_command_map)
+app.register("ready", refresh_context_command_map)
 

@@ -65,5 +65,5 @@ def on_launch():
     update_microphone_list()
 
 
-app.register("launch", on_launch)
+app.register("ready", on_launch)
 
