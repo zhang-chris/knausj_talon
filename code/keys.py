@@ -3,7 +3,7 @@ from typing import Set
 from talon import Module, Context, actions, app
 import sys
 
-default_alphabet = "air bat cap drum each fine gust harp sit jury crunch look made near odd pit quench red sun trap urge vest whale plex yank zip".split(
+default_alphabet = "air bat cap drum egg feel gust harp itch jump crunch look made near odd pit quench red sun trap urge vest whale plex yank zip".split(
     " "
 )
 letters_string = "abcdefghijklmnopqrstuvwxyz"
@@ -115,9 +115,9 @@ ctx.lists["self.modifier_key"] = {
     # If you find 'alt' is often misrecognized, try using 'alter'.
     "alt": "alt",  #'alter': 'alt',
     "command": "cmd",
-    "control": "ctrl",  #'troll':   'ctrl',
+    "troll": "ctrl",  #'troll':   'ctrl',
     "option": "alt",
-    "shift": "shift",  #'sky':     'shift',
+    "sky": "shift",  #'sky':     'shift',
     "super": "super",
 }
 alphabet = dict(zip(default_alphabet, letters_string))
@@ -208,10 +208,10 @@ ctx.lists["self.arrow_key"] = {
 }
 
 simple_keys = [
-    "end",
+    # "end",
     "enter",
     "escape",
-    "home",
+    # "home",
     "insert",
     "pagedown",
     "pageup",
@@ -220,9 +220,10 @@ simple_keys = [
 ]
 
 alternate_keys = {
+    "sam": "space",
     "delete": "backspace",
     "forward delete": "delete",
-    #'junk': 'backspace',
+    'junk': 'backspace',
 }
 # mac apparently doesn't have the menu key.
 if app.platform in ("windows", "linux"):

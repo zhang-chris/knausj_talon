@@ -12,7 +12,7 @@ righty:
 	# close the mouse grid if open
 	user.grid_close()
 
-midclick: 
+(midclick | middy): 
 	mouse_click(2)
 	# close the mouse grid
 	user.grid_close()

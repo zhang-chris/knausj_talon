@@ -1,4 +1,4 @@
-from talon import imgui, Module, speech_system, actions, app
+from talon import imgui, Module, speech_system, actions, app, ui
 
 # We keep command_history_size lines of history, but by default display only
 # command_history_display of them.
@@ -27,8 +27,10 @@ def on_phrase(j):
         history = history[-setting_command_history_size.get():]
 
 
-# todo: dynamic rect?
-@imgui.open(y=0, software=app.platform == "linux")
+rect = ui.main_screen().rect
+recty = rect.height * 1/6
+rectx = rect.width * 9/10
+@imgui.open(x=rectx, y=recty, software=False)
 def gui(gui: imgui.GUI):
     global history
     gui.text("Command History")

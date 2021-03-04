@@ -48,43 +48,43 @@ go page up:
     edit.page_up()
 
 # selecting
-select line:
+(select | cell | sell) line:
     edit.select_line()
 
-select all:
+(select | cell | sell) all:
     edit.select_all()
 
-select left:
+(select | cell | sell) left:
     edit.extend_left()
 
-select right:
+(select | cell | sell) right:
     edit.extend_right()
 
-select up:
+(select | cell | sell) up:
     edit.extend_line_up()
 
-select down:
+(select | cell | sell) down:
     edit.extend_line_down()
 
-select word:
+(select | cell | sell) word:
     edit.select_word()
 
-select word left:
+(select | cell | sell) word left:
     edit.extend_word_left()
 
-select word right:
+(select | cell | sell) word right:
     edit.extend_word_right()
 
-select way left:
+(select | cell | sell) way left:
     edit.extend_line_start()
 
-select way right:
+(select | cell | sell) way right:
     edit.extend_line_end()
 
-select way up:
+(select | cell | sell) way up:
     edit.extend_file_start()
 
-select way down:
+(select | cell | sell) way down:
     edit.extend_file_end()
 
 # editing
