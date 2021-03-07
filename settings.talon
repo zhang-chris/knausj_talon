@@ -27,7 +27,7 @@ settings():
     # the number of lines of command history to keep in total;
     # "command history more" to display all of them, "command history less" to restore
     user.command_history_size = 50
-    speech.timeout = 0.200
+    speech.timeout = 0.250
 	
 # uncomment tag to enable mouse grid
 # tag(): user.mouse_grid_enabled
