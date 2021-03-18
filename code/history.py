@@ -29,8 +29,8 @@ def on_phrase(j):
 
 rect = ui.main_screen().rect
 recty = rect.height * 1/6
-rectx = rect.width * 9/10
-@imgui.open(x=rectx, y=recty, software=False)
+rectx = rect.width * 93/100
+@imgui.open(x=rectx, y=recty)
 def gui(gui: imgui.GUI):
     global history
     gui.text("Command History")
