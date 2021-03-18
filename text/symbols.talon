@@ -49,7 +49,7 @@ angle that:
 (bracket | brace) that: 
     text = edit.selected_text()
     user.paste("{{{text}}}")
-(parens | args) that: 
+(parens | paren | args) that: 
     text = edit.selected_text()
     user.paste("({text})")
 percent that: 

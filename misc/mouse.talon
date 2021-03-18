@@ -12,7 +12,7 @@ righty:
 	# close the mouse grid if open
 	user.grid_close()
 
-(midclick | middy): 
+(midclick | middy | midge): 
 	mouse_click(2)
 	# close the mouse grid
 	user.grid_close()
@@ -74,7 +74,7 @@ wheel upper: user.mouse_scroll_up_continuous()
 wheel upper here:
     user.mouse_move_center_active_window()
     user.mouse_scroll_up_continuous()
-wheel gaze: user.mouse_gaze_scroll()
+(wheel gaze) | gaze : user.mouse_gaze_scroll()
 wheel gaze here:
     user.mouse_move_center_active_window()
     user.mouse_gaze_scroll()

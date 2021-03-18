@@ -3,7 +3,7 @@ from typing import Set
 from talon import Module, Context, actions, app
 import sys
 
-default_alphabet = "air bat cap drum egg feel gust harp itch jump crunch look made near odd pit quench red sun trap urge vest whale plex yank zip".split(
+default_alphabet = "air bat cap dad egg flame gust harp itch judge crunch look mum noon odd pip quench red sore trap urge vivid winner plex yank size".split(
     " "
 )
 letters_string = "abcdefghijklmnopqrstuvwxyz"
@@ -115,6 +115,7 @@ modifier_keys = {
     # If you find 'alt' is often misrecognized, try using 'alter'.
     "alt": "alt",  #'alter': 'alt',
     "command": "cmd",
+    "man": "cmd",
     "troll": "ctrl",  #'troll':   'ctrl',
     "option": "alt",
     "sky": "shift",  #'sky':     'shift',
@@ -139,6 +140,7 @@ punctuation_words = {
     "comma": ",",
     "period": ".",
     "semicolon": ";",
+    "stack": ";",
     "colon": ":",
     "forward slash": "/",
     "question mark": "?",
@@ -166,6 +168,7 @@ symbol_key_words = {
     "minus": "-",
     "dash": "-",
     "equals": "=",
+    "equal": "=",
     "plus": "+",
     "tilde": "~",
     "bang": "!",
@@ -224,12 +227,14 @@ simple_keys = [
 ]
 
 alternate_keys = {
-    "sam": "space",
+    "by": "space",
     "delete": "backspace",
     "forward delete": "delete",
-    'junk': 'backspace',
+    "wardell": "delete",
+    'dell': 'backspace',
     "page up": "pageup",
     "page down": "pagedown",
+    "scape": "escape",
 }
 # mac apparently doesn't have the menu key.
 if app.platform in ("windows", "linux"):
