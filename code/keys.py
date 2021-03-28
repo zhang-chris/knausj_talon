@@ -3,7 +3,7 @@ from typing import Set
 from talon import Module, Context, actions, app
 import sys
 
-default_alphabet = "air bud cut dud egg flame gust harp itch judge crunch look mum noon odd pip quench red sore trap nerve vivid winner plex yank size".split(
+default_alphabet = "air bud cut dead egg flame gust harp itch judge crunch look mum noon odd pip quench red sore trap nerve avid winner plex yank hazy".split(
     " "
 )
 letters_string = "abcdefghijklmnopqrstuvwxyz"
@@ -227,11 +227,11 @@ simple_keys = [
 ]
 
 alternate_keys = {
-    "by": "space",
+    "bay": "space",
     "delete": "backspace",
+    'dell': 'backspace',
     "forward delete": "delete",
     "wardell": "delete",
-    'dell': 'backspace',
     "page up": "pageup",
     "page down": "pagedown",
     "scape": "escape",

@@ -18,6 +18,7 @@ talon sleep:
     user.help_hide()
     user.history_disable()
     user.mouse_sleep()
+    user.engine_sleep()
 
 talon wake: 
     speech.enable()
@@ -38,3 +39,9 @@ talon wake:
     mode.disable("sleep")
     mode.disable("dictation")
     mode.enable("command")
+^pop mode$:
+    mode.disable("sleep")
+    mode.disable("dictation")
+    mode.disable("command")
+    mode.enable("pop")
+    

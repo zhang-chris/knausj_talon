@@ -1,1 +1,1 @@
-account login : key(ctrl-shift-a)
+account login : key(ctrl-alt-a)
