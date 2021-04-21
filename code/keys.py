@@ -3,7 +3,7 @@ from typing import Set
 from talon import Module, Context, actions, app
 import sys
 
-default_alphabet = "air bud cut dead egg flame gust harp itch judge crunch look mum noon odd pip quench red sore trap nerve avid winner cross yellow hazy".split(
+default_alphabet = "air bud cut dead egg flame gust harp itch judge crunch look mum noon odd pip quench red shun trap nerve avid winner cross yellow hazy".split(
     " "
 )
 letters_string = "abcdefghijklmnopqrstuvwxyz"
@@ -158,15 +158,18 @@ punctuation_words = {
 symbol_key_words = {
     "dot": ".",
     "quote": "'",
+    "single": "'",
     "L square": "[",
+    "ell square": "[",
     "left square": "[",
     "square": "[",
     "R square": "]",
+    "are square": "]",
     "right square": "]",
     "slash": "/",
     "backslash": "\\",
     "minus": "-",
-    "dash": "-",
+    "hyphen": "-",
     "equals": "=",
     "equal": "=",
     "plus": "+",
@@ -177,18 +180,22 @@ symbol_key_words = {
     "under score": "_",
     "paren": "(",
     "L paren": "(",
+    "ell paren": "(",
     "left paren": "(",
     "R paren": ")",
+    "are paren": ")",
     "right paren": ")",
     "brace": "{",
     "left brace": "{",
     "R brace": "}",
+    "are brace": "}",
     "right brace": "}",
     "angle": "<",
     "left angle": "<",
     "less than": "<",
     "rangle": ">",
     "R angle": ">",
+    "are angle": ">",
     "right angle": ">",
     "greater than": ">",
     "star": "*",
@@ -200,6 +207,7 @@ symbol_key_words = {
     "pipe": "|",
     "dubquote": '"',
     "double quote": '"',
+    "double": '"',
 }
 
 # make punctuation words also included in {user.symbol_keys}
@@ -228,6 +236,7 @@ simple_keys = [
 
 alternate_keys = {
     "bay": "space",
+    "dumb": "space",
     "delete": "backspace",
     'dell': 'backspace',
     "forward delete": "delete",
