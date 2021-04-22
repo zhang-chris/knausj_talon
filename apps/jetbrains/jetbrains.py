@@ -32,7 +32,6 @@ port_mapping = {
     "google-android-studio": 8652,
     "idea64.exe": 8653,
     "IntelliJ IDEA": 8653,
-    # "LI IntelliJ IDEA 2019.3": 8653,
     "jetbrains-appcode": 8655,
     "jetbrains-clion": 8657,
     "jetbrains-datagrip": 8664,
@@ -111,6 +110,7 @@ mod = Module()
 mod.apps.jetbrains = "app.name: /jetbrains/"
 mod.apps.jetbrains = "app.name: IntelliJ IDEA"
 mod.apps.jetbrains = "app.name: LI IntelliJ IDEA 2019.3"
+mod.apps.jetbrains = "app.name: LI IntelliJ IDEA 2020.3"
 mod.apps.jetbrains = "app.name: PyCharm"
 mod.apps.jetbrains = "app.name: RubyMine"
 mod.apps.jetbrains = "app.name: RubyMine-EAP"
