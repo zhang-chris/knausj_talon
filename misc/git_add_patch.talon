@@ -2,16 +2,16 @@ tag: terminal
 and tag: user.git
 title: /git add .*\-p/
 -
-yank:
+yellow:
   key(y)
   key(enter)
-near:
+noon:
   key(n)
   key(enter)
 quench:
   key(q)
   key(enter)
-drum:
+dead:
   key(d)
   key(enter)
 air:

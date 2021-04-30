@@ -95,9 +95,12 @@ action(user.code_comment): "//"
 action(user.code_block_comment):
     insert("/**")
     key(enter)
-    key(enter)
-    insert("*/")
-    edit.up()
+    # key(enter)
+    # insert("*/")
+    # edit.up()
 action(user.code_import):
     "import ;"
     key(left)
+
+(stay) {user.java_type_list}:
+    insert("{java_type_list} ")

@@ -66,7 +66,7 @@ action(user.multi_cursor_select_more_occurrences): user.idea("action SelectNextO
 complete: user.idea("action CodeCompletion")
 perfect: user.idea("action CodeCompletion,action CodeCompletion")
 smart: user.idea("action SmartTypeCompletion")
-(done | finish):  user.idea("action EditorCompleteStatement")
+finish:  user.idea("action EditorCompleteStatement")
 # Copying
 grab <number>: user.idea_grab(number)
 # Actions
@@ -93,7 +93,8 @@ fix (format | formatting): user.idea("action ReformatCode")
 fix imports: user.idea("action OptimizeImports")
 #navigation
 (go declaration | follow): user.idea("action GotoDeclaration")
-go implementation: user.idea("action GotoImplementation")
+(go implementation | imple): user.idea("action GotoImplementation")
+#(go interface): user.idea("action GotoInterface") TO DO: figure out how to implement this
 go usage: user.idea("action FindUsages")
 go type: user.idea("action GotoTypeDeclaration")
 go test: user.idea("action GotoTest")

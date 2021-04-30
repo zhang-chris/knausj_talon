@@ -66,3 +66,9 @@ action(browser.submit_form):
 
 action(browser.toggle_dev_tools):
 	key(cmd-alt-i)
+
+action(edit.file_start):
+	key(cmd-up)
+
+action(edit.file_end):
+	key(cmd-down)
