@@ -179,6 +179,7 @@ symbol_key_words = {
     "dollar": "$",
     "down score": "_",
     "under score": "_",
+    "downer": "_",
     "paren": "(",
     "L paren": "(",
     "ell paren": "(",
