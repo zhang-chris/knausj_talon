@@ -116,6 +116,7 @@ modifier_keys = {
     "alt": "alt",  #'alter': 'alt',
     "command": "cmd",
     "man": "cmd",
+    "man": "ctrl",  #'troll':   'ctrl',
     "troll": "ctrl",  #'troll':   'ctrl',
     "option": "alt",
     "sky": "shift",  #'sky':     'shift',
