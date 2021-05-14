@@ -159,7 +159,7 @@ class win_actions:
         title = actions.win.title()
         result = title.split(" ")
         
-        for word in result:
+        for word in result[::-1]:
             if "." in word:
                 return word
 

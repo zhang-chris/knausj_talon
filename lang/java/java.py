@@ -31,6 +31,7 @@ type_list = {
     "public static": "public static",
     "static": "static",
     "final": "final",
+    "new": "new",
  
 }
 

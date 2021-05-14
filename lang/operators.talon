@@ -37,11 +37,11 @@ cop mod equals: user.code_operator_modulo_assignment()
 (cop | is) in: user.code_operator_in()
 
 #logical operators
-(cop | logical) and: user.code_operator_and()
+(cop | logical) andy: user.code_operator_and()
 (cop | logical) or: user.code_operator_or()
 
 #bitwise operators
-[op] bitwise and: user.code_operator_bitwise_and()
+[op] bitwise andy: user.code_operator_bitwise_and()
 [op] bitwise or: user.code_operator_bitwise_or()
 (cop | logical | bitwise) (ex | exclusive) or: user.code_operator_bitwise_exclusive_or()
 (cop | logical | bitwise) (left shift | shift left): user.code_operator_bitwise_left_shift()
