@@ -144,7 +144,7 @@ clear all:
     edit.delete()
 
 #copy commands
-copy all:
+copy everything:
     edit.select_all()
     edit.copy()
 #to do: do we want these variants, seem to conflict

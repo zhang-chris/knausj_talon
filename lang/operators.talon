@@ -12,23 +12,23 @@ cop lambda: user.code_operator_lambda()
 cop subscript: user.code_operator_subscript()
 
 #assignment
-cop (equals | assign): user.code_operator_assignment()
+cop (equal | assign): user.code_operator_assignment()
 
 #math operators
 cop (minus | subtract): user.code_operator_subtraction()
-cop (minus | subtract) equals: user.code_operator_subtraction_assignment()
-cop (plus | add): user.code_operator_addition()
-cop (plus | add) equals: user.code_operator_addition_assignment()
+cop (minus | subtract) equal: user.code_operator_subtraction_assignment()
+cop add: user.code_operator_addition()
+cop add equals: user.code_operator_addition_assignment()
 cop (times | multiply): user.code_operator_multiplication()
-cop (times | multiply) equals: user.code_operator_multiplication_assignment()
+cop (times | multiply) equal: user.code_operator_multiplication_assignment()
 cop divide: user.code_operator_division()
-cop divide equals: user.code_operator_division_assignment()
+cop divide equal: user.code_operator_division_assignment()
 cop mod: user.code_operator_modulo()
-cop mod equals: user.code_operator_modulo_assignment()
+cop mod equal: user.code_operator_modulo_assignment()
 (cop (power | exponent) | to the power [of]): user.code_operator_exponent()
 
 #comparison operators
-(cop | is) equal: user.code_operator_equal()
+(is) equal : user.code_operator_equal()
 (cop | is) not equal: user.code_operator_not_equal()
 (cop | is) (greater | more): user.code_operator_greater_than()
 (cop | is) (less | below) [than]: user.code_operator_less_than()

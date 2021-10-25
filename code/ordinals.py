@@ -19,7 +19,7 @@ def ordinal(n):
 # The primitive ordinal words in English below a hundred.
 ordinal_words = {
     0: "zeroth",
-    1: "first",
+    1: "something random to disable",
     2: "second",
     3: "third",
     4: "fourth",

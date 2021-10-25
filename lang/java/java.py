@@ -21,6 +21,7 @@ type_list = {
     "long": "long",
     "double": "double",
     "byte": "byte",
+    "null": "null",
 
 # convenient to put here    
     "private": "private",
@@ -32,6 +33,8 @@ type_list = {
     "static": "static",
     "final": "final",
     "new": "new",
+    "private static final": "private static final",
+    "public static final": "public static final",
  
 }
 

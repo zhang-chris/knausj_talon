@@ -3,7 +3,7 @@ from typing import Set
 from talon import Module, Context, actions, app
 import sys
 
-default_alphabet = "air bud cut dead egg flame gust harp itch judge crunch look mum noon odd pip quench red shun trap nerve avid winner cross yellow hazy".split(
+default_alphabet = "air boy cut dead egg flame gust harp itch judge crunch look mum noon odd pip quench red shun trap nerve avid winner cross yellow hazy".split(
     " "
 )
 letters_string = "abcdefghijklmnopqrstuvwxyz"
@@ -157,7 +157,8 @@ punctuation_words = {
     "ampersand": "&",
 }
 symbol_key_words = {
-    "dot": ".",
+    "dotted": ".",
+    "quote": "'",
     "single": "'",
     "L square": "[",
     "ell square": "[",
@@ -243,6 +244,8 @@ alternate_keys = {
     "page up": "pageup",
     "page down": "pagedown",
     "scape": "escape",
+    "field": "enter",
+    "fish": "enter"
 }
 # mac apparently doesn't have the menu key.
 if app.platform in ("windows", "linux"):
@@ -251,9 +254,11 @@ if app.platform in ("windows", "linux"):
 keys = {k: k for k in simple_keys}
 keys.update(alternate_keys)
 ctx.lists["self.special_key"] = keys
-ctx.lists["self.function_key"] = {
-    f"F {default_f_digits[i]}": f"f{i + 1}" for i in range(12)
-}
+
+# disable function key
+# ctx.lists["self.function_key"] = { 
+#     f"F {default_f_digits[i]}": f"f{i + 1}" for i in range(12)
+# }
 
 
 @mod.action_class
