@@ -158,7 +158,6 @@ punctuation_words = {
 }
 symbol_key_words = {
     "dot": ".",
-    "quote": "'",
     "single": "'",
     "L square": "[",
     "ell square": "[",
@@ -207,8 +206,6 @@ symbol_key_words = {
     "caret": "^",
     "amper": "&",
     "pipe": "|",
-    "dubquote": '"',
-    "double quote": '"',
     "double": '"',
 }
 

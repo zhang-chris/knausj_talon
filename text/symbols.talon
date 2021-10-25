@@ -7,7 +7,7 @@ questy: "? "
 bangy: "! "
 calling: ": "
 stacking: "; "
-arrow: "->"
+arrow: " -> "
 dub arrow: "=>"
 new line: "\\n"
 carriage return: "\\r"
@@ -40,6 +40,12 @@ inside percent:
 	key(left)
 inside quotes:
 	insert('""')
+	key(left)
+inside tickets: 
+    insert('``')
+	key(left)
+<inside> big tickets: 
+    insert('``````')
 	key(left)
 angle that: 
     text = edit.selected_text()
