@@ -323,6 +323,9 @@ def gaze_scroll():
 
         midpoint = rect.y + rect.height / 2
         amount = int(((y - midpoint) / (rect.height / 10)) ** 3)
+
+        if app.platform == "mac":
+          amount = 0-amount
         actions.mouse_scroll(by_lines=False, y=amount)
 
     # print(f"gaze_scroll: {midpoint} {rect.height} {amount}")
