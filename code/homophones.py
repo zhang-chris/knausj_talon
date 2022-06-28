@@ -1,5 +1,6 @@
-from talon import Context, Module, app, clip, cron, imgui, actions, ui, fs
 import os
+
+from talon import Context, Module, actions, app, clip, fs, imgui, ui
 
 ########################################################################
 # global settings
@@ -22,7 +23,6 @@ mod = Module()
 mod.mode("homophones")
 mod.list("homophones_canonicals", desc="list of words ")
 
-
 main_screen = ui.main_screen()
 
 
@@ -32,14 +32,17 @@ def update_homophones(name, flags):
 
     phones = {}
     canonical_list = []
-    with open(homophones_file, "r") as f:
+    with open(homophones_file) as f:
         for line in f:
             words = line.rstrip().split(",")
             canonical_list.append(words[0])
+            merged_words = set(words)
             for word in words:
-                word = word.lower()
-                old_words = phones.get(word, [])
-                phones[word] = sorted(set(old_words + words))
+                old_words = phones.get(word.lower(), [])
+                merged_words.update(old_words)
+            merged_words = sorted(merged_words)
+            for word in merged_words:
+                phones[word.lower()] = merged_words
 
     global all_homophones
     all_homophones = phones
@@ -57,7 +60,24 @@ def close_homophones():
     actions.mode.disable("user.homophones")
 
 
-def raise_homophones(word, forced=False, selection=False):
+PHONES_FORMATTERS = [
+    lambda word: word.capitalize(),
+    lambda word: word.upper(),
+]
+
+
+def find_matching_format_function(word_with_formatting, format_functions):
+    """Finds the formatter function from a list of formatter functions which transforms a word into itself.
+    Returns an identity function if none exists"""
+    for formatter in format_functions:
+        formatted_word = formatter(word_with_formatting)
+        if word_with_formatting == formatted_word:
+            return formatter
+
+    return lambda word: word
+
+
+def raise_homophones(word_to_find_homophones_for, forced=False, selection=False):
     global quick_replace
     global active_word_list
     global show_help
@@ -68,33 +88,51 @@ def raise_homophones(word, forced=False, selection=False):
     is_selection = selection
 
     if is_selection:
-        word = word.strip()
+        word_to_find_homophones_for = word_to_find_homophones_for.strip()
 
-    is_capitalized = word == word.capitalize()
-    is_upper = word.isupper()
+    formatter = find_matching_format_function(
+        word_to_find_homophones_for, PHONES_FORMATTERS
+    )
 
-    word = word.lower()
+    word_to_find_homophones_for = word_to_find_homophones_for.lower()
 
-    if word not in all_homophones:
-        app.notify("homophones.py", '"%s" not in homophones list' % word)
+    # We support plurals, but very naively. If we can't find your word but your word ends in an s, presume its plural
+    # and attempt to find the singular, then present the presumed plurals back. This could be improved!
+    if word_to_find_homophones_for in all_homophones:
+        valid_homophones = all_homophones[word_to_find_homophones_for]
+    elif (
+        word_to_find_homophones_for[-1] == "s"
+        and word_to_find_homophones_for[:-1] in all_homophones
+    ):
+        valid_homophones = map(
+            lambda w: w + "s", all_homophones[word_to_find_homophones_for[:-1]]
+        )
+    else:
+        app.notify(
+            "homophones.py", f'"{word_to_find_homophones_for}" not in homophones list'
+        )
         return
 
-    active_word_list = all_homophones[word]
+    # Move current word to end of list to reduce searcher's cognitive load
+    valid_homophones_reordered = list(
+        filter(
+            lambda word_from_list: word_from_list.lower()
+            != word_to_find_homophones_for,
+            valid_homophones,
+        )
+    ) + [word_to_find_homophones_for]
+    active_word_list = list(map(formatter, valid_homophones_reordered))
+
     if (
         is_selection
         and len(active_word_list) == 2
         and quick_replace
         and not force_raise
     ):
-        if word == active_word_list[0].lower():
+        if word_to_find_homophones_for == active_word_list[0].lower():
             new = active_word_list[1]
         else:
             new = active_word_list[0]
-
-        if is_capitalized:
-            new = new.capitalize()
-        elif is_upper:
-            new = new.upper()
 
         clip.set(new)
         actions.edit.paste()
@@ -116,8 +154,13 @@ def gui(gui: imgui.GUI):
         gui.line()
         index = 1
         for word in active_word_list:
-            gui.text("Choose {}: {} ".format(index, word))
+            if gui.button(f"Choose {index}: {word}"):
+                actions.insert(actions.user.homophones_select(index))
+                actions.user.homophones_hide()
             index = index + 1
+
+        if gui.button("Phones hide"):
+            actions.user.homophones_hide()
 
 
 def show_help_gui():
@@ -139,20 +182,19 @@ class Actions:
         close_homophones()
 
     def homophones_show(m: str):
-        """Sentence formatter"""
-        print(m)
+        """Show the homophones display"""
         raise_homophones(m, False, False)
 
     def homophones_show_selection():
-        """Sentence formatter"""
+        """Show the homophones display for the selected text"""
         raise_homophones(actions.edit.selected_text(), False, True)
 
     def homophones_force_show(m: str):
-        """Sentence formatter"""
+        """Show the homophones display forcibly"""
         raise_homophones(m, True, False)
 
     def homophones_force_show_selection():
-        """Sentence formatter"""
+        """Show the homophones display for the selected text forcibly"""
         raise_homophones(actions.edit.selected_text(), True, True)
 
     def homophones_select(number: int) -> str:
@@ -166,3 +208,9 @@ class Actions:
         app.notify(error)
         raise error
 
+    def homophones_get(word: str) -> [str] or None:
+        """Get homophones for the given word"""
+        word = word.lower()
+        if word in all_homophones:
+            return all_homophones[word]
+        return None

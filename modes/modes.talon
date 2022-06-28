@@ -1,5 +1,4 @@
-#defines the various mode commands
-mode: all
+not mode: sleep
 -
 # welcome back:
 #     user.mouse_wake()
@@ -13,14 +12,14 @@ mode: all
 #     user.mouse_sleep()
 #     speech.disable()
 #     user.engine_sleep()
-(talon | dragon | drag and) sleep: 
+(talon | dragon | drag and) sleep:
     speech.disable()
     user.help_hide()
     user.history_disable()
     user.mouse_sleep()
     user.engine_sleep()
 
-(talon | dragon | drag and) wake: 
+(talon | dragon | drag and) wake:
     speech.enable()
     user.history_enable()
     user.mouse_wake()

@@ -1,11 +1,12 @@
-from talon import app, Module, Context, actions, ui, imgui, settings, app, registry
+from talon import Module
 
 mod = Module()
-mod.tag("generic_terminal", desc="Tag for enabling generic terminal commands")
 
 
 @mod.action_class
 class Actions:
+    # implements the function from generic_terminal.talon for unix shells
+
     def terminal_list_directories():
         """Lists directories"""
 
@@ -24,6 +25,8 @@ class Actions:
     def terminal_run_last():
         """Repeats the last command"""
 
+    def terminal_rerun_search(command: str):
+        """Searches through the previously executed commands"""
+
     def terminal_kill_all():
         """kills the running command"""
-

@@ -15,7 +15,7 @@ cube edit:           "kubectl edit "
 cube delete:         "kubectl delete "
 
 cube rollout:        "kubectl rollout "
-cube rolling-update: "kubectl rolling-update "
+cube rolling update: "kubectl rolling-update "
 cube scale:          "kubectl scale "
 cube auto scale:     "kubectl autoscale "
 
@@ -64,5 +64,4 @@ cube detach:
     key("ctrl-p")
     key("ctrl-q")
 cube shell:
-    insert("kubectl exec -it  -- /bin/bash")
-    key("left:13")
+    user.insert_between("kubectl exec -it ", " -- /bin/bash")

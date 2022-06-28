@@ -1,4 +1,4 @@
-from talon import Context, Module
+from talon import Module
 
 mod = Module()
 
@@ -59,13 +59,6 @@ os: linux
 and app.name: /termite/
 """
 
-apps.windows_explorer = """
-os: windows
-and app.name: Windows Explorer
-os: windows
-and app.exe: explorer.exe
-"""
-
 apps.windows_command_processor = """
 os: windows
 and app.name: Windows Command Processor
@@ -75,10 +68,14 @@ and app.exe: cmd.exe
 
 apps.windows_terminal = """
 os: windows
-and app.exe: WindowsTerminal.exe 
+and app.exe: WindowsTerminal.exe
 """
 
 mod.apps.windows_power_shell = """
 os: windows
 and app.exe: powershell.exe
+"""
+
+apps.vim = """
+win.title:/VIM/
 """

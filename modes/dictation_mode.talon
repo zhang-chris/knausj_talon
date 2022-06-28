@@ -1,16 +1,19 @@
 mode: dictation
 -
-^press <user.keys>$: key("{keys}")
+^press <user.modifiers>$: key(modifiers)
+^press <user.keys>$: key(keys)
 
-# Everything here should call auto_insert to preserve the state to correctly auto-capitalize/auto-space.
-<user.text>: auto_insert(text)
-{user.punctuation}: auto_insert(punctuation)
-new line: auto_insert("new-line")
-new paragraph: auto_insert("new-paragraph")
-cap <user.word>:
-    result = user.formatted_text(word, "CAPITALIZE_FIRST_WORD")
-    auto_insert(result)
-    
+# Everything here should call `auto_insert()` (instead of `insert()`), to preserve the state to correctly auto-capitalize/auto-space.
+# (Talonscript string literals implicitly call `auto_insert`, so there's no need to wrap those)
+<user.raw_prose>: auto_insert(raw_prose)
+cap: user.dictation_format_cap()
+# Hyphenated variants are for Dragon.
+(no cap | no-caps): user.dictation_format_no_cap()
+(no space | no-space): user.dictation_format_no_space()
+^cap that$: user.dictation_reformat_cap()
+^(no cap | no-caps) that$: user.dictation_reformat_no_cap()
+^(no space | no-space) that$: user.dictation_reformat_no_space()
+
 # Navigation
 go up <number_small> (line|lines):
     edit.up()
@@ -59,9 +62,7 @@ clear right <number_small> (character|characters):
 
 # Formatting
 formatted <user.format_text>:
-    user.auto_format_pause()
-    auto_insert(format_text)
-    user.auto_format_resume()
+    user.dictation_insert_raw(format_text)
 ^format selection <user.formatters>$:
     user.formatters_reformat_selection(formatters)
 
@@ -72,9 +73,7 @@ select that: user.select_last_phrase()
 spell that <user.letters>: auto_insert(letters)
 spell that <user.formatters> <user.letters>:
     result = user.formatted_text(letters, formatters)
-    user.auto_format_pause()
-    auto_insert(result)
-    user.auto_format_resume()
+    user.dictation_insert_raw(result)
 
 # Escape, type things that would otherwise be commands
 ^escape <user.text>$:

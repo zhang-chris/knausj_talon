@@ -1,5 +1,6 @@
 # vs title tracking requires an extension
 # https://marketplace.visualstudio.com/items?itemName=mayerwin.RenameVisualStudioWindowTitle
+# https://github.com/mayerwin/vs-customize-window-title (VS 2022 support in releases)
 # I currently configure the extension as below
 # Document (no solution) open: [documentName] - [ideName]
 # No document or solution open: [idleName]
@@ -7,8 +8,7 @@
 # Solution in design mode: [documentName] - [parentPath]\[solutionName] - [ideName]
 # Solution in running mode: [documentName] - [parentPath]\[solutionName] (Running) - [ideName]
 
-from talon import Context, actions, ui, Module, app, clip
-from typing import List, Union
+from talon import Context, Module, actions
 
 # is_mac = app.platform == "mac"
 
@@ -17,6 +17,8 @@ mod = Module()
 
 apps = mod.apps
 apps.visual_studio = """
+os: windows
+and app.name: Microsoft Visual Studio 2022
 os: windows
 and app.name: Microsoft Visual Studio 2019
 os: windows
@@ -28,29 +30,50 @@ ctx.matches = r"""
 app: visual_studio
 """
 
+from talon import Context, actions
 
-@ctx.action_class("win")
-class win_actions:
-    def filename():
-        title = actions.win.title()
-        # this doesn't seem to be necessary on VSCode for Mac
-        # if title == "":
-        #    title = ui.active_window().doc
+ctx = Context()
+ctx.matches = r"""
+os: windows
+app: visual_studio
+"""
 
-        result = title.split("-")[0].rstrip()
 
-        if "." in result:
-            # print(result)
-            return result
+@ctx.action_class("app")
+class AppActions:
+    # talon app actions
+    def tab_close():
+        actions.key("ctrl-f4")
 
-        return ""
+    def tab_next():
+        actions.key("ctrl-tab")
 
-    def file_ext():
-        return actions.win.filename().split(".")[-1]
+    def tab_previous():
+        actions.key("ctrl-shift-tab")
+
+    def tab_reopen():
+        actions.key("ctrl-1 ctrl-r enter")
+
+
+@ctx.action_class("code")
+class CodeActions:
+    # talon code actions
+    def toggle_comment():
+        actions.key("ctrl-k ctrl-/")
 
 
 @ctx.action_class("edit")
-class edit_actions:
+class EditActions:
+    # talon edit actions
+    def indent_more():
+        actions.key("tab")
+
+    def indent_less():
+        actions.key("shift-tab")
+
+    def save_all():
+        actions.key("ctrl-shift-s")
+
     def find(text: str):
         actions.key("ctrl-f")
         actions.insert(text)
@@ -71,8 +94,25 @@ class edit_actions:
         actions.key("enter")
 
 
+@ctx.action_class("win")
+class WinActions:
+    def filename():
+        title = actions.win.title()
+        # this doesn't seem to be necessary on VSCode for Mac
+        # if title == "":
+        #    title = ui.active_window().doc
+
+        result = title.split("-")[0].rstrip()
+
+        if "." in result:
+            # print(result)
+            return result
+
+        return ""
+
+
 @ctx.action_class("user")
-class user_actions:
+class UserActions:
     # snippet.py support beginHelp close
     def snippet_search(text: str):
         """TEST"""
@@ -207,3 +247,26 @@ class user_actions:
 
     # find_and_replace.py support end
 
+    # multiple_cursor.py support begin
+    # note: visual studio has no explicit mode for multiple cursors; requires https://marketplace.visualstudio.com/items?itemName=VaclavNadrasky.MultiCaretBooster
+    def multi_cursor_add_above():
+        actions.key("shift-alt-up")
+
+    def multi_cursor_add_below():
+        actions.key("shift-alt-down")
+
+    # action(user.multi_cursor_add_to_line_ends): does not exist :(
+    def multi_cursor_disable():
+        actions.key("escape")
+
+    def multi_cursor_enable():
+        actions.skip()
+
+    def multi_cursor_select_all_occurrences():
+        actions.key("shift-alt-;")
+
+    def multi_cursor_select_fewer_occurrences():
+        actions.key("shift-alt-k")
+
+    def multi_cursor_select_more_occurrences():
+        actions.key("shift-alt->")

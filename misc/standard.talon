@@ -12,6 +12,7 @@
 #word shell: "shell".
 zoom in: edit.zoom_in()
 zoom out: edit.zoom_out()
+zoom reset: edit.zoom_reset()
 scroll up: edit.page_up()
 scroll down: edit.page_down()
 copy that: edit.copy()
@@ -23,14 +24,12 @@ redo that: edit.redo()
 redo: edit.redo()
 paste match: edit.paste_match_style()
 file save: edit.save()
-#wipe: key(backspace)    
-(padding): 
-	insert("  ") 
+#wipe: key(backspace)
+(padding):
+	insert("  ")
 	key(left)
 
 pad dash: " - "
 pad arrow: " -> "
 
-slap:
-	edit.line_end()
-	key(enter)
+slap: edit.line_insert_down()

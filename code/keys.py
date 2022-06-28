@@ -1,7 +1,4 @@
-from typing import Set
-
-from talon import Module, Context, actions, app
-import sys
+from talon import Context, Module, actions, app
 
 default_alphabet = "air boy cut dead egg flame gust harp itch judge crunch look mum noon odd pip quench red shun trap nerve avid winner cross yellow hazy".split(
     " "
@@ -10,8 +7,8 @@ letters_string = "abcdefghijklmnopqrstuvwxyz"
 
 default_digits = "zero one two three four five six seven eight nine".split(" ")
 numbers = [str(i) for i in range(10)]
-default_f_digits = "one two three four five six seven eight nine ten eleven twelve".split(
-    " "
+default_f_digits = (
+    "one two three four five six seven eight nine ten eleven twelve".split(" ")
 )
 
 mod = Module()
@@ -122,24 +119,25 @@ modifier_keys = {
     "sky": "shift",  #'sky':     'shift',
     "super": "super",
 }
-if app.platform  == "mac":
+if app.platform == "mac":
     modifier_keys["command"] = "cmd"
     modifier_keys["option"] = "alt"
 ctx.lists["self.modifier_key"] = modifier_keys
 alphabet = dict(zip(default_alphabet, letters_string))
 ctx.lists["self.letter"] = alphabet
 
-# `punctuation_words` is for words you want available BOTH in dictation and as
-# key names in command mode. `symbol_key_words` is for key names that should be
-# available in command mode, but NOT during dictation.
+# `punctuation_words` is for words you want available BOTH in dictation and as key names in command mode.
+# `symbol_key_words` is for key names that should be available in command mode, but NOT during dictation.
 punctuation_words = {
     # TODO: I'm not sure why we need these, I think it has something to do with
     # Dragon. Possibly it has been fixed by later improvements to talon? -rntz
     "`": "`",
     ",": ",",  # <== these things
     "back tick": "`",
+    "grave": "`",
     "comma": ",",
     "period": ".",
+    "full stop": ".",
     "semicolon": ";",
     "stack": ";",
     "colon": ":",
@@ -147,7 +145,6 @@ punctuation_words = {
     "question mark": "?",
     "exclamation mark": "!",
     "exclamation point": "!",
-    "dollar sign": "$",
     "asterisk": "*",
     "hash sign": "#",
     "number sign": "#",
@@ -155,11 +152,15 @@ punctuation_words = {
     "at sign": "@",
     "and sign": "&",
     "ampersand": "&",
+    # Currencies
+    "dollar sign": "$",
+    "pound sign": "£",
 }
 symbol_key_words = {
     "dotted": ".",
     "quote": "'",
     "single": "'",
+    "point": ".",
     "L square": "[",
     "ell square": "[",
     "left square": "[",
@@ -176,7 +177,6 @@ symbol_key_words = {
     "plus": "+",
     "tilde": "~",
     "bang": "!",
-    "dollar": "$",
     "down score": "_",
     "under score": "_",
     "downer": "_",
@@ -201,13 +201,13 @@ symbol_key_words = {
     "right angle": ">",
     "greater than": ">",
     "star": "*",
-    "pound": "#",
     "hash": "#",
     "percent": "%",
     "caret": "^",
     "amper": "&",
     "pipe": "|",
     "double": '"',
+    "dollar": "$"
 }
 
 # make punctuation words also included in {user.symbol_keys}
@@ -250,20 +250,24 @@ alternate_keys = {
 # mac apparently doesn't have the menu key.
 if app.platform in ("windows", "linux"):
     alternate_keys["menu key"] = "menu"
+    alternate_keys["print screen"] = "printscr"
 
-keys = {k: k for k in simple_keys}
-keys.update(alternate_keys)
-ctx.lists["self.special_key"] = keys
+special_keys = {k: k for k in simple_keys}
+special_keys.update(alternate_keys)
+ctx.lists["self.special_key"] = special_keys
 
-# disable function key
-# ctx.lists["self.function_key"] = { 
+# disable function keys
+# ctx.lists["self.function_key"] = {
 #     f"F {default_f_digits[i]}": f"f{i + 1}" for i in range(12)
 # }
 
 
 @mod.action_class
 class Actions:
-    def get_alphabet() -> dict:
-        """Provides the alphabet dictionary"""
-        return alphabet
-
+    def move_cursor(s: str):
+        """Given a sequence of directions, eg. 'left left up', moves the cursor accordingly using edit.{left,right,up,down}."""
+        for d in s.split():
+            if d in ("left", "right", "up", "down"):
+                getattr(actions.edit, d)()
+            else:
+                raise RuntimeError(f"invalid arrow key: {d}")
