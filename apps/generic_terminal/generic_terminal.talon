@@ -13,9 +13,12 @@ clear screen: user.terminal_clear_screen()
 run last: user.terminal_run_last()
 rerun [<user.text>]: user.terminal_rerun_search(text or "")
 rerun search: user.terminal_rerun_search("")
-kill all: user.terminal_kill_all()
+(kill all | cancel): user.terminal_kill_all()
 
 copy paste:
     edit.copy()
     sleep(50ms)
     edit.paste()
+
+sharp: "ssh "
+vim: "vi "

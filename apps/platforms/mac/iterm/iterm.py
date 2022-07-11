@@ -81,5 +81,5 @@ class user_actions:
 
     def terminal_kill_all():
         actions.key("ctrl-c")
-        actions.insert("y")
-        actions.key("enter")
+        # actions.insert("y")
+        # actions.key("enter")
