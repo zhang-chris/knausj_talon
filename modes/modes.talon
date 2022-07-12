@@ -12,14 +12,14 @@ not mode: sleep
 #     user.mouse_sleep()
 #     speech.disable()
 #     user.engine_sleep()
-(talon | dragon | drag and) sleep:
+(talon sleep | drowse):
     speech.disable()
     user.help_hide()
     user.history_disable()
     user.mouse_sleep()
     user.engine_sleep()
 
-(talon | dragon | drag and) wake:
+(talon wake | wake up):
     speech.enable()
     user.history_enable()
     user.mouse_wake()
