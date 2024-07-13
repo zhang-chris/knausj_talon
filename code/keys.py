@@ -1,6 +1,6 @@
 from talon import Context, Module, actions, app
 
-default_alphabet = "air boy cut dead egg flame gust harp itch judge crunch look mum noon odd pip quench red shun trap nerve avid winner cross yellow hazy".split(
+default_alphabet = "air boy cut deck egg flame gust harp itch judge crunch look mum noon odd pip quench red shun trap nerve avid winner cross yellow hazy".split(
     " "
 )
 letters_string = "abcdefghijklmnopqrstuvwxyz"
