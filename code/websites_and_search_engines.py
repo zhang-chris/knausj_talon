@@ -26,9 +26,16 @@ website_defaults = {
     "google scholar": "https://scholar.google.com/",
     "gmail": "https://mail.google.com/",
     "github": "https://github.com/",
-    "gist": "https://gist.github.com/",
+
     "wikipedia": "https://en.wikipedia.org/",
     "youtube": "https://www.youtube.com/",
+
+    # google work
+    "code search": "http://cs/",
+    "critique": "go/cl",
+    "yacks": "go/yaqs",
+    "bugs": "go/buganizer",
+    "flower": "flower",
 }
 
 _search_engine_defaults = {

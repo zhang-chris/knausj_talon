@@ -50,7 +50,7 @@ righty:
 	mouse_click()
 	# close the mouse grid
 	user.grid_close()
-left drag | drag:
+left drag | dragon:
 	user.mouse_drag(0)
 	# close the mouse grid
 	user.grid_close()
@@ -84,7 +84,7 @@ wheel upper: user.mouse_scroll_up_continuous()
 wheel upper here:
     user.mouse_move_center_active_window()
     user.mouse_scroll_up_continuous()
-(wheel gaze) | gaze | game : user.mouse_gaze_scroll()
+(wheel gaze) | gaze | game | gasp | gap: user.mouse_gaze_scroll()
 wheel gaze here:
     user.mouse_move_center_active_window()
     user.mouse_gaze_scroll()

@@ -10,6 +10,7 @@ go home: browser.go_home()
 go (back | backward): browser.go_back()
 go to {user.website}: browser.go(website)
 go private: browser.open_private_window()
+go link: 'go/'
 
 bookmark it: browser.bookmark()
 bookmark tabs: browser.bookmark_tabs()

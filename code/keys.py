@@ -1,6 +1,6 @@
 from talon import Context, Module, actions, app
 
-default_alphabet = "air boy cut dead egg flame gust harp itch judge crunch look mum noon odd pip quench red shun trap nerve avid winner cross yellow hazy".split(
+default_alphabet = "air boy cut deck egg flame gust harp itch judge crunch look mum noon odd pip quench red shun trap nerve avid winner cross yellow hazy".split(
     " "
 )
 letters_string = "abcdefghijklmnopqrstuvwxyz"
@@ -235,17 +235,18 @@ simple_keys = [
 ]
 
 alternate_keys = {
-    "bay": "space",
     "dumb": "space",
+    "dump": "space",
     "delete": "backspace",
     'dell': 'backspace',
     "forward delete": "delete",
-    "wardell": "delete",
+    "fore dell": "delete",
     "page up": "pageup",
     "page down": "pagedown",
     "scape": "escape",
     "field": "enter",
-    "fish": "enter"
+    "fish": "enter",
+    "pay": "enter"
 }
 # mac apparently doesn't have the menu key.
 if app.platform in ("windows", "linux"):

@@ -199,6 +199,7 @@ _snap_positions = {
     "center": RelativeScreenPos(1 / 8, 0, 7 / 8, 1),
     "full": RelativeScreenPos(0, 0, 1, 1),
     "fullscreen": RelativeScreenPos(0, 0, 1, 1),
+    "code": RelativeScreenPos(1 / 9, 0, 1, 1),
 }
 
 
